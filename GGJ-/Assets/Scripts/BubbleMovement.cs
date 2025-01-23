@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class BubbleMovement : MonoBehaviour
 {
-    public float forwardSpeed = 10f;
-    public float verticalSpeed = 5f;
-    public float maxHeight = 4f;
-    public float minHeight = -4f;
+    public float movementSpeed = 10f; // Speed for both horizontal and vertical movement
 
     void Update()
     {
-        float input = Input.GetAxis("Vertical"); // W/S or Up/Down keys
-        Vector3 newPosition = transform.position + Vector3.up * input * verticalSpeed * Time.deltaTime;
+        // Get input for both vertical and horizontal directions
+        float verticalInput = Input.GetAxis("Vertical");   // W/S or Up/Down keys
+        float horizontalInput = Input.GetAxis("Horizontal"); // A/D or Left/Right keys
 
+        // Calculate new position
+        Vector3 newPosition = transform.position +
+                              Vector3.up * verticalInput * movementSpeed * Time.deltaTime +
+                              Vector3.right * horizontalInput * movementSpeed * Time.deltaTime;
+
+        // Apply the new position to the object
         transform.position = newPosition;
-
-        transform.position += Vector3.right * forwardSpeed * Time.deltaTime;
-
     }
-
 }

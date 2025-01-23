@@ -11,6 +11,21 @@ public class CatJump : MonoBehaviour
     private bool isJumping = false;
     private float elapsedTime = 0f;
     private Vector3 startPosition;
+    private AudioSource audioSource;
+    public AudioClip bubblePopSound; // Drag the audio clip in the Inspector
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Assign the bubble pop sound
+        audioSource.clip = bubblePopSound;
+        audioSource.playOnAwake = false; // Ensure it doesn't play automatically
+    }
 
     void Update()
     {
@@ -20,6 +35,9 @@ public class CatJump : MonoBehaviour
         if (player != null && !isJumping && IsPlayerWithinRadius())
         {
             StartJump();
+            audioSource.Play();
+
+            detectionRadius = 0f;
         }
 
         if (isJumping)
@@ -77,9 +95,5 @@ public class CatJump : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 
-    bool isGrounded()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 0.1f);
-        return hit;
-    }
+  
 }
